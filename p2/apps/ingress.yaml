@@ -36,4 +36,3 @@ spec:
             name: app3-service
             port:
               number: 80
-

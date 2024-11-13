@@ -1,0 +1,20 @@
+$script = <<-SCRIPT
+apk update && apk add --no-cache curl
+curl -sfL https://get.k3s.io | K3S_TOKEN=my-cluster-token sh -s - server --cluster-init --write-kubeconfig-mode 644 --node-ip 192.168.56.110
+SCRIPT
+
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "generic/alpine318"
+
+  config.vm.define "vvioviS" do |control|
+	control.vm.hostname = "vvioviS"
+	control.vm.network "private_network", ip: "192.168.56.110"
+	control.vm.provider "libvirt" do |libvirt|
+		libvirt.memory = "1024"
+		libvirt.cpus = 1
+	end
+	control.vm.provision "shell", inline: $script
+  end
+
+end
