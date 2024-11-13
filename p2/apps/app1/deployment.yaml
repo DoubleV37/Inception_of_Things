@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app1-deployment
+  labels:
+    app: app1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app1
+  template:
+    metadata:
+      labels:
+        app: app1
+    spec:
+      containers:
+      - name: app1
+        image: nginx:1.27.2-alpine
+        ports:
+        - containerPort: 80
+        volumeMounts:
+          - name: nginx-index-volume
+            mountPath: /usr/share/nginx/html/index.html
+            subPath: index.html
+          - name: nginx-images-volume
+            mountPath: /usr/share/nginx/html/images
+      volumes:
+      - name: nginx-index-volume
+        configMap:
+          name: nginx-index
+      - name: nginx-images-volume
+        configMap:
+          name: nginx-static-content
+
