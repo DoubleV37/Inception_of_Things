@@ -1,35 +1,35 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app1-deployment
+  name: app3-deployment
   labels:
-    app: app1
+    app: app3
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: app1
+      app: app3
   template:
     metadata:
       labels:
-        app: app1
+        app: app3
     spec:
       containers:
-      - name: app1
+      - name: app3
         image: nginx:1.27.2-alpine
         ports:
         - containerPort: 80
         volumeMounts:
-          - name: nginx-index-volume
+          - name: app3-index-volume
             mountPath: /usr/share/nginx/html/index.html
             subPath: index.html
-          - name: nginx-images-volume
+          - name: app3-images-volume
             mountPath: /usr/share/nginx/html/images
       volumes:
-      - name: nginx-index-volume
+      - name: app3-index-volume
         configMap:
-          name: nginx-index
-      - name: nginx-images-volume
+          name: app3-index
+      - name: app3-images-volume
         configMap:
-          name: nginx-static-content
+          name: app3-static-content
 

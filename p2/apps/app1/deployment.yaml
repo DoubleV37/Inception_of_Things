@@ -20,16 +20,16 @@ spec:
         ports:
         - containerPort: 80
         volumeMounts:
-          - name: nginx-index-volume
+          - name: app1-index-volume
             mountPath: /usr/share/nginx/html/index.html
             subPath: index.html
-          - name: nginx-images-volume
+          - name: app1-images-volume
             mountPath: /usr/share/nginx/html/images
       volumes:
-      - name: nginx-index-volume
+      - name: app1-index-volume
         configMap:
-          name: nginx-index
-      - name: nginx-images-volume
+          name: app1-index
+      - name: app1-images-volume
         configMap:
-          name: nginx-static-content
+          name: app1-static-content
 
