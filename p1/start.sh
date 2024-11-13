@@ -6,8 +6,8 @@ vagrant up --no-parallel
 sleep 60
 
 # Copy kubeconfig from the server to the host
-if [ ! -d "~/.kube" ]; then
-  mkdir ~/.kube
+if [ ! -d "$HOME/.kube" ]; then
+  mkdir $HOME/.kube
 fi
 vagrant ssh vvioviS -c "cat /etc/rancher/k3s/k3s.yaml" > ~/.kube/config
 sed -i 's/127\.0\.0\.1/192\.168\.56\.110/g' ~/.kube/config
