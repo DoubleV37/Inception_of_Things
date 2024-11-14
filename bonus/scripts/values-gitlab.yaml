@@ -5,7 +5,7 @@ global:
     enabled: false
     configureCertmanager: false
   hosts:
-    domain: 172.18.0.2.nip.io
+    domain: mygitlab.com
     externalIP: 172.18.0.2
   # Disable Rails bootsnap cache (temporary)
   rails:
@@ -31,15 +31,6 @@ gitlab:
   webservice:
     minReplicas: 1
     maxReplicas: 1
-    ingress:
-      enabled: true
-      annotations:
-          traefik.ingress.kubernetes.io/router.entrypoints: websecure  # Utilisez 'websecure' pour HTTPS ou 'web' pour HTTP
-          traefik.ingress.kubernetes.io/router.tls: "true"
-      hosts:
-        - "gitlab.172.18.0.2.nip.io"  # Remplacez par votre sous-domaine pour GitLab
-      paths:
-        - "/"
   sidekiq:
     minReplicas: 1
     maxReplicas: 1

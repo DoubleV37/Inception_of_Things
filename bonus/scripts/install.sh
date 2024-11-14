@@ -31,13 +31,20 @@ k3d cluster create --agents 2 --servers 1
 sleep 10
 
 helm install argo-cd argo/argo-cd --namespace argocd --create-namespace
-kubectl apply -f ../app/app.yaml -n argocd
 
 helm upgrade gitlab gitlab/gitlab --namespace gitlab --create-namespace -f values-gitlab.yaml --install
 
+kubectl apply -f ingress-gitlab.yaml -n gitlab
+
 echo "Mot de passe initial pour le user admin "
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 --decode; echo
-# Wait before running Argo CD
+
+echo "Mot de passe initial pour le user root de gitlab"
 kubectl get secret gitlab-gitlab-initial-root-password -o jsonpath="{.data.password}" -n gitlab | base64 --decode ; echo
 
 kubectl port-forward service/argo-cd-argocd-server -n argocd 8080:443
+
+echo "172.18.0.2 gitlab.mygitlab.com" | sudo tee -a /etc/hosts
+
+# modifier le fichier app.yaml avec l'url de gitlab custom
+#kubectl apply -f ../app/app.yaml -n argocd

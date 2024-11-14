@@ -15,5 +15,5 @@ spec:
       prune: true
   source:
     path: .
-    repoURL: 'https://github.com/Gazzopar/gazzopar_website.git'
+    repoURL: 'https://gitlab.mygitlab.com/root/test.git'
     targetRevision: main
