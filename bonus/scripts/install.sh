@@ -14,37 +14,14 @@ sudo apt-get update
 
 sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
+sudo usermod -aG docker $USER
+
+newgrp docker
+
+curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
+
 # Install Helm
 curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
 chmod 700 get_helm.sh
 ./get_helm.sh
 rm get_helm.sh
-
-helm repo add argo https://argoproj.github.io/argo-helm
-helm repo add gitlab https://charts.gitlab.io/
-helm repo update
-
-curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
-
-k3d cluster create --agents 2 --servers 1
-
-sleep 10
-
-helm install argo-cd argo/argo-cd --namespace argocd --create-namespace
-
-helm upgrade gitlab gitlab/gitlab --namespace gitlab --create-namespace -f values-gitlab.yaml --install
-
-kubectl apply -f ingress-gitlab.yaml -n gitlab
-
-echo "Mot de passe initial pour le user admin "
-kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 --decode; echo
-
-echo "Mot de passe initial pour le user root de gitlab"
-kubectl get secret gitlab-gitlab-initial-root-password -o jsonpath="{.data.password}" -n gitlab | base64 --decode ; echo
-
-kubectl port-forward service/argo-cd-argocd-server -n argocd 8080:443
-
-echo "172.18.0.2 gitlab.mygitlab.com" | sudo tee -a /etc/hosts
-
-# modifier le fichier app.yaml avec l'url de gitlab custom
-#kubectl apply -f ../app/app.yaml -n argocd
