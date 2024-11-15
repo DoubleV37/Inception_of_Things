@@ -15,5 +15,5 @@ spec:
       prune: true
   source:
     path: .
-    repoURL: 'https://gitlab.mygitlab.com/root/test.git'
+    repoURL: 'https://gitlab.172.18.0.2.nip.io/root/test.git'
     targetRevision: main

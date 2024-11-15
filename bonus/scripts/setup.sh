@@ -20,9 +20,12 @@ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.pas
 echo "Mot de passe initial pour le user root de gitlab"
 kubectl get secret gitlab-gitlab-initial-root-password -o jsonpath="{.data.password}" -n gitlab | base64 --decode ; echo
 
-echo "172.18.0.2 gitlab.mygitlab.com" | sudo tee -a /etc/hosts
+echo "172.18.0.2 gitlab.172.18.0.2.nip.io" | sudo tee -a /etc/hosts
+echo "172.18.0.2 dev-app.com" | sudo tee -a /etc/hosts
 echo "=============================================================="
-# modifier le fichier app.yaml avec l'url de gitlab custom
-#kubectl apply -f ../app/app.yaml -n argocd
+git config --global http.sslVerify false
 
 kubectl port-forward service/argo-cd-argocd-server -n argocd 8080:443
+
+# modifier le fichier app.yaml avec l'url de gitlab custom
+#kubectl apply -f ../app/app.yaml -n argocd

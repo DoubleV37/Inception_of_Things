@@ -5,7 +5,7 @@ global:
     enabled: false
     configureCertmanager: false
   hosts:
-    domain: mygitlab.com
+    domain: 172.18.0.2.nip.io
     externalIP: 172.18.0.2
   # Disable Rails bootsnap cache (temporary)
   rails:
